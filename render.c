@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
+const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 480;
 
 SDL_Window *window = NULL;
@@ -65,14 +65,28 @@ bool init()
         printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
         success = false;
     }
-    SDL_Texture *grassTexture = load_texture("./ground_grass_1.png");
 
-    Entity *entities[50] = {
-        new_entity( position(300 , SCREEN_HEIGHT - 150), grassTexture ),
-        new_entity( position(200 , SCREEN_HEIGHT - 150), grassTexture ),
-        new_entity( position(150 ,SCREEN_HEIGHT - 150), grassTexture ),
-        new_entity( position(150 ,SCREEN_HEIGHT - 150), grassTexture ),
-        new_entity( position(150 ,SCREEN_HEIGHT - 150), grassTexture ),
+    SDL_Texture *grassTexture = load_texture("./ground_grass_1.png");
+    SDL_Texture *playerTexture = load_texture("./NEW.png");
+    Entity *player = new_entity( position(100 ,50,8,8), playerTexture);
+
+    // Entity *player[9] = {
+    //     new_entity( position(0, 0,0,0), load_texture("./player_1.png") ),
+    //     new_entity( position(0, 0,0,0), load_texture("./player_2.png") ),
+    //     new_entity(position(0, 0,0,0), load_texture("./player_3.png") ),
+    //     new_entity( position(0, 0,0,0), load_texture("./player_4.png") ),
+    // }; 
+
+    Entity *entities[9] = {
+        new_entity( position(0 , SCREEN_HEIGHT - 120, 32, 32), grassTexture ),
+        new_entity( position(120 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(220 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(320 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(420 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(520 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(620 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(720 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+        new_entity( position(820 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
     }; 
 
     const float time_step = 0.01f;
@@ -107,8 +121,12 @@ bool init()
         //Clear screen
         SDL_RenderClear( renderer );  
         // Render all entities
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 9; i++)
             render_texture( entities[i] );
+
+
+      
+        render_texture( player );
             
         //Update screen
         SDL_RenderPresent( renderer );
