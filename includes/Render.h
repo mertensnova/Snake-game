@@ -7,5 +7,8 @@
 bool init();
 bool load_media();
 SDL_Texture* load_texture( const char* path );
-void render_texture( Entity *pos );
+
+void render_texture( Entity *new_entity );
+int get_refresh_rate();
+
 #endif

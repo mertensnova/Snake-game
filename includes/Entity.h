@@ -12,5 +12,11 @@ typedef struct
 
 } Entity;
 
-Entity *new_entity( float p_x, float p_y, SDL_Texture *p_tex );
+typedef struct 
+{
+  float x,y;
+} Vector;
+
+Vector *position(float p_x, float p_y);
+Entity *new_entity( Vector *pos, SDL_Texture *p_tex );
 #endif
