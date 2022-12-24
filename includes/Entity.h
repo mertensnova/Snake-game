@@ -14,9 +14,9 @@ typedef struct
 
 typedef struct 
 {
-  float x,y,w,h;
+  float x,y;
 } Vector;
 
-Vector *position(float p_x, float p_y,float p_w, float p_h);
+Vector *position(float p_x, float p_y);
 Entity *new_entity( Vector *pos, SDL_Texture *p_tex );
 #endif

@@ -1,0 +1,26 @@
+
+    // SDL_Texture *bgTexture = load_texture("./pictures/light_bg.png");
+    // Entity *background = new_entity( position(0, 0), bgTexture);
+
+    // Entity *player[9] = {
+    //     new_entity( position(0, 0,0,0), load_texture("./player_1.png") ),
+    //     new_entity( position(0, 0,0,0), load_texture("./player_2.png") ),
+    //     new_entity(position(0, 0,0,0), load_texture("./player_3.png") ),
+    //     new_entity( position(0, 0,0,0), load_texture("./player_4.png") ),
+    // }; 
+
+    // Entity *entities[9] = {
+    //     new_entity( position(0 , SCREEN_HEIGHT - 120, 32, 32), grassTexture ),
+    //     new_entity( position(120 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(220 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(320 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(420 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(520 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(620 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(720 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    //     new_entity( position(820 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
+    // }; 
+
+
+    //Initialize renderer color
+    // SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );

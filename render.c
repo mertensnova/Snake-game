@@ -18,6 +18,21 @@ SDL_Renderer* renderer = NULL;
 //Current displayed texture
 SDL_Texture* texture = NULL;
 
+//The images that correspond to a keypress
+
+//Key press surfaces constants
+enum KeyPressSurfaces
+{
+    KEY_PRESS_SURFACE_DEFAULT,
+    KEY_PRESS_SURFACE_UP,
+    KEY_PRESS_SURFACE_DOWN,
+    KEY_PRESS_SURFACE_LEFT,
+    KEY_PRESS_SURFACE_RIGHT,
+    KEY_PRESS_SURFACE_TOTAL
+};
+
+SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
+
 bool init()
 {
     //Initialization flag
@@ -38,9 +53,6 @@ bool init()
                                 SCREEN_WIDTH, 
                                 SCREEN_HEIGHT, 
                                 SDL_WINDOW_SHOWN );
-	
-    int window_refresh_rate = get_refresh_rate();
-    printf("%d\n",window_refresh_rate);
 
     if( window == NULL )
     {
@@ -55,7 +67,8 @@ bool init()
         printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
         success = false;
     }
-     //Initialize renderer color
+
+    //Initialize renderer color
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
     //Initialize PNG loading
@@ -66,96 +79,31 @@ bool init()
         success = false;
     }
 
-    SDL_Texture *grassTexture = load_texture("./ground_grass_1.png");
-    SDL_Texture *playerTexture = load_texture("./NEW.png");
-    Entity *player = new_entity( position(100 ,50,8,8), playerTexture);
-
-    // Entity *player[9] = {
-    //     new_entity( position(0, 0,0,0), load_texture("./player_1.png") ),
-    //     new_entity( position(0, 0,0,0), load_texture("./player_2.png") ),
-    //     new_entity(position(0, 0,0,0), load_texture("./player_3.png") ),
-    //     new_entity( position(0, 0,0,0), load_texture("./player_4.png") ),
-    // }; 
-
-    Entity *entities[9] = {
-        new_entity( position(0 , SCREEN_HEIGHT - 120, 32, 32), grassTexture ),
-        new_entity( position(120 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(220 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(320 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(420 , SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(520 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(620 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(720 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-        new_entity( position(820 ,SCREEN_HEIGHT - 120,32, 32), grassTexture ),
-    }; 
-
-    const float time_step = 0.01f;
-    float accmulator = 0.0f;
-    float current_time = SDL_GetTicks();
+    SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
+    Entity *ball = new_entity(position(20,20),ballTexture);
 
     while ( running )
     {
-        int start_tick = SDL_GetTicks();
 
-        float new_time = SDL_GetTicks();
-        float frame_time = new_time - current_time;
-        
-        current_time = new_time;
-
-        accmulator += frame_time;
-        while (accmulator >= time_step)
+        while ( SDL_PollEvent( &event ) )
         {
-            while ( SDL_PollEvent( &event ) )
+            if ( event.type == SDL_QUIT )
             {
-                if ( event.type == SDL_QUIT )
-                {
-                    running = false;
-                    break;
-                }               
-            }
-            accmulator -= time_step;  
+                running = false;
+                break;
+            }        
         }
-         
-         const float alpha  = accmulator / time_step;
-
         //Clear screen
         SDL_RenderClear( renderer );  
-        // Render all entities
-        for (int i = 0; i < 9; i++)
-            render_texture( entities[i] );
 
+        render_texture( ball );
 
-      
-        render_texture( player );
-            
-        //Update screen
-        SDL_RenderPresent( renderer );
-        int frame_ticks = SDL_GetTicks() - start_tick;
-
-        if ( frame_ticks < 1000 / get_refresh_rate() )
-           SDL_Delay( 1000 / window_refresh_rate - frame_ticks );
+		SDL_RenderPresent( renderer );
     }
 
-    
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
-    return success;
-}
-
-bool load_media()
-{
-    //Loading success flag
-    bool success = true;
-
-    //Load PNG texture
-    texture = load_texture( "./ground_grass_1.png" );
-    if( texture == NULL )
-    {
-        printf( "Failed to load texture image!\n" );
-        success = false;
-    }
-
     return success;
 }
 
@@ -168,11 +116,13 @@ void render_texture( Entity *new_entity )
     src.w = new_entity->currentFrame.w;
     src.h = new_entity->currentFrame.h;
 
+    // SDL_QueryTexture(new_entity->tex, NULL, NULL, &src.w, &src.h);
+
     SDL_Rect dst;
     dst.x = new_entity->x;
     dst.y = new_entity->y;
-    dst.w =  new_entity->currentFrame.w * 4;
-    dst.h = new_entity->currentFrame.h * 4;
+    dst.w =  new_entity->currentFrame.w;
+    dst.h = new_entity->currentFrame.h;
 
     SDL_RenderCopy( renderer, new_entity->tex, &src, &dst );
 
@@ -184,20 +134,11 @@ SDL_Texture* load_texture( const char* path )
     SDL_Texture* newTexture = NULL;
 
     //Load image at specified path
-    newTexture  = IMG_LoadTexture( renderer,path );
+    newTexture  = IMG_LoadTexture( renderer, path );
+
     if ( newTexture == NULL )
         printf( "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
 
 
     return newTexture;
-}
-
-int get_refresh_rate()
-{
-    int display_index = SDL_GetWindowDisplayIndex( window );
-
-    SDL_DisplayMode mode;
-
-    SDL_GetDisplayMode( display_index ,0 ,&mode );
-    return mode.refresh_rate;
 }

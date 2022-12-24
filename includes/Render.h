@@ -5,10 +5,9 @@
 #include "Entity.h"
 
 bool init();
-bool load_media();
+// bool load_media();
+// SDL_Surface* load_surface( const char* path );
 SDL_Texture* load_texture( const char* path );
 
 void render_texture( Entity *new_entity );
-int get_refresh_rate();
-
 #endif
