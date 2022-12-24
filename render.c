@@ -17,22 +17,6 @@ SDL_Surface* screenSurface = NULL;
 SDL_Renderer* renderer = NULL;
 //Current displayed texture
 SDL_Texture* texture = NULL;
-
-//The images that correspond to a keypress
-
-//Key press surfaces constants
-enum KeyPressSurfaces
-{
-    KEY_PRESS_SURFACE_DEFAULT,
-    KEY_PRESS_SURFACE_UP,
-    KEY_PRESS_SURFACE_DOWN,
-    KEY_PRESS_SURFACE_LEFT,
-    KEY_PRESS_SURFACE_RIGHT,
-    KEY_PRESS_SURFACE_TOTAL
-};
-
-SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
-
 bool init()
 {
     //Initialization flag
@@ -80,7 +64,9 @@ bool init()
     }
 
     SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
-    Entity *ball = new_entity(position(20,20),ballTexture);
+    float x = 0;
+    float y = 0 ;
+    Entity *ball = new_entity(position(x,y),ballTexture);
 
     while ( running )
     {
@@ -91,7 +77,30 @@ bool init()
             {
                 running = false;
                 break;
-            }        
+            }
+            else if ( event.type == SDL_KEYDOWN )
+            {
+                switch( event.key.keysym.sym )
+                {
+                case SDLK_UP:
+                  y -= 10;
+                  ball = new_entity(position(x,y),ballTexture);
+                break;
+                case SDLK_DOWN:
+                    y += 10;
+                    ball = new_entity(position(x,y),ballTexture);
+                break;
+                case SDLK_LEFT:
+                    x -= 10;
+                    ball = new_entity(position(x,y),ballTexture);
+                break;
+                case SDLK_RIGHT:
+                    x += 10;
+                    ball = new_entity(position(x,y),ballTexture);
+                break;
+
+                }       
+            }
         }
         //Clear screen
         SDL_RenderClear( renderer );  
@@ -116,8 +125,6 @@ void render_texture( Entity *new_entity )
     src.w = new_entity->currentFrame.w;
     src.h = new_entity->currentFrame.h;
 
-    // SDL_QueryTexture(new_entity->tex, NULL, NULL, &src.w, &src.h);
-
     SDL_Rect dst;
     dst.x = new_entity->x;
     dst.y = new_entity->y;
@@ -125,7 +132,6 @@ void render_texture( Entity *new_entity )
     dst.h = new_entity->currentFrame.h;
 
     SDL_RenderCopy( renderer, new_entity->tex, &src, &dst );
-
 }
 
 SDL_Texture* load_texture( const char* path )

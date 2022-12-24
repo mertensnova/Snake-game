@@ -7,16 +7,8 @@
 
 Vector *position(float p_x, float p_y)
 {
-     Vector *vec = malloc(sizeof(Vector));  
-     vec->x = p_x;
-     vec->y = p_y;
-     return vec;
-}
-
-Entity *new_entity( Vector *pos, SDL_Texture *p_tex )
-{
-    Entity *entity = malloc(sizeof(Entity));
-    // SDL_Event event;
+     Vector *vec = malloc(sizeof(Vector));
+    //   SDL_Event event;
     //     while ( SDL_PollEvent( &event ) )
     //     {
     //          if( event.type == SDL_KEYDOWN )
@@ -25,20 +17,27 @@ Entity *new_entity( Vector *pos, SDL_Texture *p_tex )
     //             switch( event.key.keysym.sym )
     //             {
     //             case SDLK_UP:
-    //                 pos->y += 10; 
+    //                vec->x = p_x + 10 ;
+    //                printf("HELLO WORLD")
     //             break;
 
     //             case SDLK_DOWN:
-    //                  pos->y -= 10; 
+    //                 vec->y = p_y - 10;
     //             break;
-
     //             default:
-    //                 pos->y = pos->y;
+    //             vec->y = p_y;
     //             break;
-    //             }
-    //         }  
-    //     }
-   
+        //         }
+        //     }  
+        // }
+    vec->y = p_y;
+     vec->x = p_x;
+     return vec;
+}
+
+Entity *new_entity( Vector *pos, SDL_Texture *p_tex )
+{
+    Entity *entity = malloc(sizeof(Entity));
     entity->x = pos->x;
     entity->y = pos->y;
     entity->tex = p_tex;
