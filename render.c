@@ -98,6 +98,10 @@ bool init()
     SDL_QueryTexture(tile_texture,NULL,NULL,&dest2.w,&dest2.h);
     float x_vel = SPEED;
     float y_vel = SPEED;
+    int up = 0;
+    int down = 0;
+    int left = 0;
+    int right = 0;
 
     dest2.x  =random_number(0,SCREEN_WIDTH - 20);
     dest2.y = random_number(0,SCREEN_HEIGHT - 20);
@@ -114,66 +118,76 @@ bool init()
             }
             else if( event.type == SDL_KEYDOWN )
             {
-                while ( dest.y != SCREEN_HEIGHT - dest.h )
-                    {
-                        // dest.y = SCREEN_HEIGHT -dest.h;
-                        SDL_RenderClear( renderer );   
-                        switch( event.key.keysym.sym )
-                        {
-                            case SDLK_UP:
-                                dest.y++;                
-                            break;
-                            case SDLK_DOWN:
-                                dest.y++;
-                            break;
-                            case SDLK_LEFT:
-                                dest.x--;
-                            break;
-                            case SDLK_RIGHT:
-                                dest.x++;
-                            break;
-                        }  
-                            SDL_RenderCopy(renderer,ballTexture,NULL, &dest);
-                            SDL_Delay(1000 / 60);
-                    }
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP:
+                        up =1;
+                        break;
+                    case SDLK_DOWN:
+                        down = 1;
+                        break;
+                    case SDLK_LEFT:
+                        left = 1;
+                        break;
+                    case SDLK_RIGHT:
+                        right = 1;
+                        break;
+                }  
             }
         }
 
-        if (dest.x <= 0)
-            dest.x = 0;
+        // if (dest.x <= 0)
+        //     dest.x = 0;
 
-        if (dest.y <= 0)
-            dest.y = 0;
+        // if (dest.y <= 0)
+        //     dest.y = 0;
            
-        if (dest.x >= SCREEN_WIDTH - dest.w )
-            dest.x = SCREEN_WIDTH -dest.w;
+        // if (dest.x >= SCREEN_WIDTH - dest.w )
+        //     dest.x = SCREEN_WIDTH -dest.w;
             
-        if (dest.y >= SCREEN_HEIGHT -dest.h )
-           dest.y = SCREEN_HEIGHT -dest.h;
+        // if (dest.y >= SCREEN_HEIGHT -dest.h )
+        //    dest.y = SCREEN_HEIGHT -dest.h;
+        float y_pos = SCREEN_HEIGHT;
+        float x_pos = SCREEN_WIDTH;
 
-            
-        printf("TILES---------------->x:%d \t tiles->y:%d\n",dest2.x,dest2.y);
-        printf("BALLS------------>x:%d \t balss->y:%d\n",dest.x,dest.y);
-        if (dest.x == dest2.x)
-        {  
-            printf("TRUE");
-            // SDL_RenderClear( renderer );
-            // SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
-            dest2.x  = random_number(0,SCREEN_WIDTH - 32);
-            dest2.y = random_number(0,SCREEN_HEIGHT - 32);
+        while (dest.y >= - dest.h)
+        {
+            SDL_RenderClear( renderer );
+            dest.y = y_pos; 
+            // dest.x = x_pos;
+            // if(left && !right) x_pos--;
+            // if(right && !left) x_pos++;
+ 
+            SDL_RenderCopy(renderer,ballTexture,NULL, &dest);
+            SDL_RenderPresent(renderer);
+            if(up && !down) y_pos -= SPEED / 90; 
+            if(down && !up) y_pos += SPEED / 90;
+            SDL_Delay(1000/60);
         }
+    
+        // printf("TILES---------------->x:%d \t tiles->y:%d\n",dest2.x,dest2.y);
+        // printf("BALLS------------>x:%d \t balss->y:%d\n",dest.x,dest.y);
+        // if (dest.x == dest2.x)
+        // {  
+        //     printf("TRUE");
+        //     // SDL_RenderClear( renderer );
+        //     // SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
+        //     dest2.x  = random_number(0,SCREEN_WIDTH - 32);
+        //     dest2.y = random_number(0,SCREEN_HEIGHT - 32);
+        // }
         
            
 
-        SDL_RenderClear( renderer );
-        SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
-        SDL_RenderCopy( renderer ,ballTexture,NULL,&dest);
-		SDL_RenderPresent( renderer );
+        // SDL_RenderClear( renderer );
+        // SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
+        // // SDL_RenderCopy( renderer ,ballTexture,NULL,&dest);
+		// SDL_RenderPresent( renderer );
     }
 
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
+    SDL_Quit();
     return success;
 }
 
