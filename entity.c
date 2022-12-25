@@ -8,29 +8,8 @@
 Vector *position(float p_x, float p_y)
 {
      Vector *vec = malloc(sizeof(Vector));
-    //   SDL_Event event;
-    //     while ( SDL_PollEvent( &event ) )
-    //     {
-    //          if( event.type == SDL_KEYDOWN )
-    //         {
-    //             //Select surfaces based on key press
-    //             switch( event.key.keysym.sym )
-    //             {
-    //             case SDLK_UP:
-    //                vec->x = p_x + 10 ;
-    //                printf("HELLO WORLD")
-    //             break;
 
-    //             case SDLK_DOWN:
-    //                 vec->y = p_y - 10;
-    //             break;
-    //             default:
-    //             vec->y = p_y;
-    //             break;
-        //         }
-        //     }  
-        // }
-    vec->y = p_y;
+     vec->y = p_y;
      vec->x = p_x;
      return vec;
 }

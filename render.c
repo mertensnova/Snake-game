@@ -1,22 +1,45 @@
-#include "includes/Render.h"
-#include "includes/Entity.h"
 #include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
+
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
 
-#include <stdbool.h>
+#include "includes/Render.h"
+#include "includes/Entity.h"
+#include "includes/Ball.h"
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 480;
 
 SDL_Window *window = NULL;
+
 //The surface contained by the window
 SDL_Surface* screenSurface = NULL;
+
 //The window renderer
 SDL_Renderer* renderer = NULL;
+
 //Current displayed texture
 SDL_Texture* texture = NULL;
+
+int random_number(int min_num, int max_num)
+{
+        int result = 0, low_num = 0, hi_num = 0;
+
+        if (min_num < max_num)
+        {
+            low_num = min_num;
+            hi_num = max_num + 1; // include max_num in output
+        } else {
+            low_num = max_num + 1; // include max_num in output
+            hi_num = min_num;
+        }
+
+        srand(time(NULL));
+        result = (rand() % (hi_num - low_num)) + low_num;
+        printf("%d\n",result);
+        return result;
+}
+
 bool init()
 {
     //Initialization flag
@@ -64,9 +87,20 @@ bool init()
     }
 
     SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
-    float x = 0;
-    float y = 0 ;
-    Entity *ball = new_entity(position(x,y),ballTexture);
+    SDL_Texture *tile_texture = load_texture("./pictures/tile32_dark.png");
+
+    // Entity *ball = new_entity(position(0,0),ballTexture);
+    // Entity *tiles = new_entity(position(random_number(0,SCREEN_WIDTH - 32), random_number(0,SCREEN_HEIGHT - 32)),tile_texture);
+    
+    SDL_Rect dest;
+    SDL_Rect dest2;
+    SDL_QueryTexture(ballTexture,NULL,NULL,&dest.w,&dest.h);
+    SDL_QueryTexture(tile_texture,NULL,NULL,&dest2.w,&dest2.h);
+    float x_vel = SPEED;
+    float y_vel = SPEED;
+
+    dest2.x  =random_number(0,SCREEN_WIDTH - 20);
+    dest2.y = random_number(0,SCREEN_HEIGHT - 20);
 
     while ( running )
     {
@@ -78,35 +112,62 @@ bool init()
                 running = false;
                 break;
             }
-            else if ( event.type == SDL_KEYDOWN )
+            else if( event.type == SDL_KEYDOWN )
             {
-                switch( event.key.keysym.sym )
-                {
-                case SDLK_UP:
-                  y -= 10;
-                  ball = new_entity(position(x,y),ballTexture);
-                break;
-                case SDLK_DOWN:
-                    y += 10;
-                    ball = new_entity(position(x,y),ballTexture);
-                break;
-                case SDLK_LEFT:
-                    x -= 10;
-                    ball = new_entity(position(x,y),ballTexture);
-                break;
-                case SDLK_RIGHT:
-                    x += 10;
-                    ball = new_entity(position(x,y),ballTexture);
-                break;
-
-                }       
+                while ( dest.y != SCREEN_HEIGHT - dest.h )
+                    {
+                        // dest.y = SCREEN_HEIGHT -dest.h;
+                        SDL_RenderClear( renderer );   
+                        switch( event.key.keysym.sym )
+                        {
+                            case SDLK_UP:
+                                dest.y++;                
+                            break;
+                            case SDLK_DOWN:
+                                dest.y++;
+                            break;
+                            case SDLK_LEFT:
+                                dest.x--;
+                            break;
+                            case SDLK_RIGHT:
+                                dest.x++;
+                            break;
+                        }  
+                            SDL_RenderCopy(renderer,ballTexture,NULL, &dest);
+                            SDL_Delay(1000 / 60);
+                    }
             }
         }
-        //Clear screen
-        SDL_RenderClear( renderer );  
 
-        render_texture( ball );
+        if (dest.x <= 0)
+            dest.x = 0;
 
+        if (dest.y <= 0)
+            dest.y = 0;
+           
+        if (dest.x >= SCREEN_WIDTH - dest.w )
+            dest.x = SCREEN_WIDTH -dest.w;
+            
+        if (dest.y >= SCREEN_HEIGHT -dest.h )
+           dest.y = SCREEN_HEIGHT -dest.h;
+
+            
+        printf("TILES---------------->x:%d \t tiles->y:%d\n",dest2.x,dest2.y);
+        printf("BALLS------------>x:%d \t balss->y:%d\n",dest.x,dest.y);
+        if (dest.x == dest2.x)
+        {  
+            printf("TRUE");
+            // SDL_RenderClear( renderer );
+            // SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
+            dest2.x  = random_number(0,SCREEN_WIDTH - 32);
+            dest2.y = random_number(0,SCREEN_HEIGHT - 32);
+        }
+        
+           
+
+        SDL_RenderClear( renderer );
+        SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
+        SDL_RenderCopy( renderer ,ballTexture,NULL,&dest);
 		SDL_RenderPresent( renderer );
     }
 

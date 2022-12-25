@@ -24,3 +24,47 @@
 
     //Initialize renderer color
     // SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+     // while (dest.y >= -dest.h)
+        // {
+        //     SDL_RenderClear( renderer );  
+        //     dest.y = (int) y_pos;
+        //     SDL_RenderCopy(renderer,ball->tex,NULL, &dest);
+        //     SDL_RenderPresent(renderer);
+        //     y_pos -= (float) SPEED /60;
+        //     /* code */
+        //     SDL_Delay(1000/60);
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+           if (x_pos <= 0)
+        {
+            x_pos = 0;
+            x_vel = -x_vel;
+        }
+        if (y_pos <= 0)
+        {
+            y_pos = 0;
+            y_vel = -y_vel;
+        }
+        if (x_pos >= SCREEN_WIDTH -dest.w )
+        {
+            x_pos = SCREEN_WIDTH -dest.w;
+            x_vel = -x_vel;
+        }
+        if (y_pos >= SCREEN_HEIGHT -dest.h )
+        {
+           y_pos = SCREEN_HEIGHT -dest.h ;
+            y_vel = -y_vel;
+        }
