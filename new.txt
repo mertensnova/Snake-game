@@ -73,3 +73,25 @@ const float time_step = 0.01f;
 
 
 
+        // if (dest.x <= 0)
+        //     dest.x = 0;
+
+        // if (dest.y <= 0)
+        //     dest.y = 0;
+           
+        // if (dest.x >= SCREEN_WIDTH - dest.w )
+        //     dest.x = SCREEN_WIDTH -dest.w;
+            
+        // if (dest.y >= SCREEN_HEIGHT -dest.h )
+        //    dest.y = SCREEN_HEIGHT -dest.h;
+
+
+
+
+ // SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
+    // SDL_Texture *tile_texture = load_texture("./pictures/tile32_dark.png");
+    // SDL_RenderClear( renderer );
+    //     // set_pos( renderer, ball );
+    //     render_texture(  ball );
+
+      // Entity *ball = new_entity(position(0,0),ballTexture);

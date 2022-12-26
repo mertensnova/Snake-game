@@ -38,9 +38,61 @@
 
 
 
+  else if( event.type == SDL_KEYDOWN )
+            {
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP:
+                        up = 1;
+                        down = 0;
+                        left = 0;
+                        right = 0;
+                        break;
+                    case SDLK_DOWN:
+                         up = 0;
+                        down = 1;
+                        left = 0;
+                        right = 0;
+                        break;
+                    case SDLK_LEFT:
+                        up = 0;
+                        down = 0;
+                        left = 1;
+                        right = 0;
+                        break;
+                    case SDLK_RIGHT:
+                        up = 0;
+                        down = 0;
+                        left = 0;
+                        right = 1;
+                        break;
+                }  
 
 
 
+
+
+
+
+
+
+
+    SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
+    SDL_Texture *tile_texture = load_texture("./pictures/tile32_dark.png");
+
+    Entity *ball = new_entity(position(0,0),ballTexture);
+    // Entity *tiles = new_entity(position(random_number(0,SCREEN_WIDTH - 32), random_number(0,SCREEN_HEIGHT - 32)),tile_texture);
+    
+    SDL_Rect dest;
+    SDL_Rect dest2;
+    SDL_QueryTexture(ballTexture,NULL,NULL,&dest.w,&dest.h);
+    SDL_QueryTexture(tile_texture,NULL,NULL,&dest2.w,&dest2.h);
+    float x_vel = SPEED;
+    float y_vel = SPEED;
+    int up = 0;
+    int down = 0;
+    int left = 0;
+    int right = 0;
 
 
 

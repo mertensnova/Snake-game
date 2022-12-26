@@ -19,4 +19,5 @@ typedef struct
 
 Vector *position(float p_x, float p_y);
 Entity *new_entity( Vector *pos, SDL_Texture *p_tex );
+Entity *set_pos(SDL_Renderer *renderer, Entity *entity);
 #endif

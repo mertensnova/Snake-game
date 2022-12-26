@@ -10,21 +10,27 @@
 
 
 
-void set_pos(Entity *ball)
-{
-    SDL_Rect dest;
+// void set_pos(SDL_Renderer *renderer, SDL_Texture *texture)
+// {
+//     SDL_Rect dest;
+//     float y_pos = SCREEN_HEIGHT;
+//     float x_pos = SCREEN_WIDTH;
+
+//     SDL_Texture *ballTexture = load_texture("./pictures/ball.png");
+//     // SDL_RenderCopy( renderer ,tile_texture,NULL,&dest2);
+//     // SDL_RenderCopy( renderer ,ballTexture,&src,&dest);
+// 	SDL_RenderPresent( renderer );
     
-    // dest.x = (SCREEN_WIDTH -dest.w) / 2;
+//     // while (dest.y >=  -dest.h)
+//     // {
+//     //     SDL_RenderClear( renderer );  
+//     //     // dest.y = (int) y_pos;
 
-    // float x_vel = SPEED;
-    // float y_vel = SPEED;
-    // float x_pos =  (SCREEN_WIDTH - dest.w) / 2;
-    // float y_pos =  (SCREEN_HEIGHT - dest.h) / 2;
-    dest.y += 20; 
-    dest.x += 20;
+//     //     SDL_RenderCopy( renderer, ballTexture, NULL, &dest );
+//     //     SDL_RenderPresent( renderer );
 
-    ball->x = dest.x;
-    ball->y = dest.y;
-    SDL_QueryTexture(ball->tex,NULL,NULL,&dest.w,&dest.h);
-    // SDL_RenderCopy()
-}
+//     //     // y_pos -= (float) SPEED / 60;
+
+//     //     // SDL_Delay(1000/60);
+//     // }
+// }

@@ -5,7 +5,7 @@
 #include "Entity.h"
 
 
-void set_pos(Entity *ball);
+// void set_pos(SDL_Texture *texture);
 
 #endif
 
