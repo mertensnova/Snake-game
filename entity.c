@@ -7,7 +7,10 @@
 #include "includes/Entity.h"
 #include "includes/Render.h"
 
-Vector *position(float p_x, float p_y)
+
+// SDL_Event event;
+
+Vector *vector2f(float p_x, float p_y)
 {
      Vector *vec = malloc(sizeof(Vector));
 
@@ -33,27 +36,9 @@ Entity *new_entity( Vector *pos, SDL_Texture *p_tex )
 }
 
 
-Entity *set_pos(SDL_Renderer *renderer, Entity *entity)
-{
-    SDL_Rect dest;
-    float y_pos = SCREEN_HEIGHT;
-    float x_pos = SCREEN_WIDTH;
+// Entity *set_pos( Entity *entity )
+// {
 
-    SDL_QueryTexture(entity->tex,NULL,NULL,&dest.w,&dest.h);
-
-    while (dest.y >=  -dest.h)
-    {
-        // SDL_RenderClear( renderer );  
-        entity->y = (int) y_pos;
-        
-
-        // SDL_RenderCopy( renderer, entity->tex, NULL, &dest );
-        // SDL_RenderPresent( renderer );
-        y_pos -= (float) SPEED / 60;
-
-        SDL_Delay(1000/60);
-    }
-
-    return entity;
-}
+//     return entity;
+// }
 

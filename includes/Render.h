@@ -13,6 +13,5 @@ SDL_Texture* load_texture( const char* path );
 // void set_pos(SDL_Texture *texture);
 
 void render_texture( Entity *new_entity );
-bool game_loop();
-void close();
+bool game_loop(void);
 #endif

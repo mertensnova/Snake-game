@@ -7,7 +7,7 @@
 
 #include "includes/Render.h"
 #include "includes/Entity.h"
-// #include "includes/Ball.h"
+#include "includes/Snake.h"
 
 
 SDL_Window *window = NULL;
@@ -38,7 +38,6 @@ int random_number(int min_num, int max_num)
 
         srand(time(NULL));
         result = (rand() % (hi_num - low_num)) + low_num;
-        printf("%d\n",result);
         return result;
 }
 
@@ -46,14 +45,13 @@ bool init()
 {
     //Initialization flag
 	bool success = true;
-    SDL_Event event;
-    bool running = true;
 
     //Initialize SDL
 	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
     {
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         success = false;
+        exit(1);
     }
   
     window = SDL_CreateWindow( "My World", 
@@ -67,6 +65,7 @@ bool init()
     {
 	    printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
         success = false;
+        exit(1);
     }
 
     //Create renderer for window
@@ -75,10 +74,8 @@ bool init()
     {
         printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
         success = false;
+        exit(1);
     }
-
-    //Initialize renderer color
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
     //Initialize PNG loading
     int imgFlags = IMG_INIT_PNG;
@@ -88,13 +85,28 @@ bool init()
         success = false;
     }
 
-    SDL_RenderClear( renderer );
+    Entity *ball = new_entity( vector2f(0,0), load_texture("./pictures/ball.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-    SDL_RenderPresent( renderer );
 
+    bool running = true;  
+    while ( running )
+    {
+        while ( SDL_PollEvent( &event ) )
+        {
+            if ( event.type == SDL_QUIT )
+            {
+                running = false;
+                break;
+            }
+        }
 
-    while ( !game_loop() ) break;
+        SDL_RenderClear( renderer );
+        set_pos( ball );
+        render_texture( ball );
+        SDL_RenderPresent( renderer );
+    }
 
+    
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
@@ -106,7 +118,6 @@ bool init()
 
 void render_texture( Entity *new_entity )
 {
-
     SDL_Rect src;
     src.x = new_entity->currentFrame.x; 
     src.y = new_entity->currentFrame.y;
@@ -118,6 +129,7 @@ void render_texture( Entity *new_entity )
     dst.y = new_entity->y;
     dst.w =  new_entity->currentFrame.w;
     dst.h = new_entity->currentFrame.h;
+
 
     SDL_RenderCopy( renderer, new_entity->tex, &src, &dst );
 }
@@ -135,19 +147,4 @@ SDL_Texture* load_texture( const char* path )
 
 
     return newTexture;
-}
-
-bool game_loop()
-{ 
-    bool running = true;  
-
-    while ( SDL_WaitEvent( &event ) )
-    {
-        if ( event.type == SDL_QUIT )
-        {
-                running = false;
-                break;
-        }
-    }
-    return running;
 }
