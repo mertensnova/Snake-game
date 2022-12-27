@@ -85,11 +85,10 @@ bool init()
         success = false;
     }
 
-    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./pictures/ball.png") );
-    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./pictures/tile32_dark.png") );
+    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./static/ball.png") );
+    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/tile32_dark.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
-    bool collision = false;
     bool running = true;
     int score = 0;
     int up = 0;
@@ -146,19 +145,20 @@ bool init()
         render_texture( snake );
         render_texture( apple );
 
-        printf("Apple: y->%f x->%f\n",apple->y,apple->x);
-        printf("Snake: y->%f x->%f\n",snake->y,snake->x);
-
-        if (apple->x == snake->x + snake->currentFrame.w || apple->y == snake->y + snake->currentFrame.h)
+        if (
+            snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
+            snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
+           )
         {   
             score++;
-            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./pictures/tile32_dark.png") );
+            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/tile32_dark.png") );  
         }
-
+        
         render_texture( apple );
         SDL_RenderPresent( renderer );
     }
 
+    printf("%d\n",score);
     
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );

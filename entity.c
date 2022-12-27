@@ -8,8 +8,6 @@
 #include "includes/Render.h"
 
 
-// SDL_Event event;
-
 Vector *vector2f(float p_x, float p_y)
 {
      Vector *vec = malloc(sizeof(Vector));
@@ -34,11 +32,4 @@ Entity *new_entity( Vector *pos, SDL_Texture *p_tex )
 
     return entity;
 }
-
-
-// Entity *set_pos( Entity *entity )
-// {
-
-//     return entity;
-// }
 
