@@ -2,7 +2,7 @@
 # Snake Game
 
 A snake game using C and SDL.
-## Run Locally
+## Run Locally (Only works in Linux)
 
 Clone the project
 

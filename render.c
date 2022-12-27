@@ -12,13 +12,10 @@
 
 SDL_Window *window = NULL;
 
-//The surface contained by the window
 SDL_Surface* screenSurface = NULL;
 
-//The window renderer
 SDL_Renderer* renderer = NULL;
 
-//Current displayed texture
 SDL_Texture* texture = NULL;
 
 SDL_Event event;
@@ -43,7 +40,7 @@ int random_number(int min_num, int max_num)
 
 bool init()
 {
-    //Initialization flag
+     //Initialization flag
 	bool success = true;
 
     //Initialize SDL
@@ -85,6 +82,12 @@ bool init()
         success = false;
     }
 
+    return success;
+}
+
+void game()
+{
+   
     Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./static/ball.png") );
     Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/tile32_dark.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -164,8 +167,6 @@ bool init()
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
     SDL_Quit();
-
-    return success;
 }
 
 
@@ -189,10 +190,8 @@ void render_texture( Entity *new_entity )
 
 SDL_Texture* load_texture( const char* path )
 {
-    //The final texture
     SDL_Texture* newTexture = NULL;
 
-    //Load image at specified path
     newTexture  = IMG_LoadTexture( renderer, path );
 
     if ( newTexture == NULL )

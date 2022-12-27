@@ -9,6 +9,8 @@ int main(int argc,char *argv[])
 
     if ( !init() )
         printf( "Failed to initialize! \n");
+    else
+        game();
 
     return 0;
 }
