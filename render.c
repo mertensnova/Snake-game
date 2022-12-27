@@ -25,20 +25,20 @@ SDL_Event event;
 
 int random_number(int min_num, int max_num)
 {
-        int result = 0, low_num = 0, hi_num = 0;
+    int result = 0, low_num = 0, hi_num = 0;
 
-        if (min_num < max_num)
-        {
-            low_num = min_num;
-            hi_num = max_num + 1; // include max_num in output
-        } else {
-            low_num = max_num + 1; // include max_num in output
-            hi_num = min_num;
-        }
+    if (min_num < max_num)
+    {
+        low_num = min_num;
+        hi_num = max_num + 1;
+    } else {
+        low_num = max_num + 1;
+        hi_num = min_num;
+    }
 
-        srand(time(NULL));
-        result = (rand() % (hi_num - low_num)) + low_num;
-        return result;
+    srand(time(NULL));
+    result = (rand() % (hi_num - low_num)) + low_num;
+    return result;
 }
 
 bool init()
@@ -85,10 +85,18 @@ bool init()
         success = false;
     }
 
-    Entity *ball = new_entity( vector2f(0,0), load_texture("./pictures/ball.png") );
+    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./pictures/ball.png") );
+    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./pictures/tile32_dark.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
-    bool running = true;  
+    bool collision = false;
+    bool running = true;
+    int score = 0;
+    int up = 0;
+    int down = 0;
+    int left = 0;
+    int right = 0;
+
     while ( running )
     {
         while ( SDL_PollEvent( &event ) )
@@ -98,11 +106,56 @@ bool init()
                 running = false;
                 break;
             }
+            else if( event.type == SDL_KEYDOWN )
+            {
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP:
+                        up = 1;
+                        down = 0;
+                        left= 0;
+                        right = 0;
+                        break;
+                    case SDLK_DOWN:
+                        up = 0;
+                        down = 1;
+                        left= 0;
+                        right = 0;
+                        break;
+                    case SDLK_LEFT:
+                        up = 0;
+                        down = 0;
+                        left= 1;
+                        right = 0;
+                        break;
+                    case SDLK_RIGHT:
+                        up = 0;
+                        down = 0;
+                        left= 0;
+                        right = 1;
+                        break;
+                }  
+            }
+            
         }
 
+        snake_movement( snake, up,  down, left, right );
+
         SDL_RenderClear( renderer );
-        set_pos( ball );
-        render_texture( ball );
+        SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+        render_texture( snake );
+        render_texture( apple );
+
+        printf("Apple: y->%f x->%f\n",apple->y,apple->x);
+        printf("Snake: y->%f x->%f\n",snake->y,snake->x);
+
+        if (apple->x == snake->x + snake->currentFrame.w || apple->y == snake->y + snake->currentFrame.h)
+        {   
+            score++;
+            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./pictures/tile32_dark.png") );
+        }
+
+        render_texture( apple );
         SDL_RenderPresent( renderer );
     }
 

@@ -5,14 +5,8 @@
 
 #include "Entity.h"
 
-// typedef struct snake
-// {
-//     Vector *vec;
-//     int size;
-// } Snake;
 
-// Snake render_snake( int size );
-void set_pos( Entity *snake );
+void snake_movement( Entity *snake ,int up, int down, int left, int right);
 
 #endif
 

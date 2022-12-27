@@ -9,41 +9,33 @@
 #include "includes/Snake.h"
 
 
-void set_pos( Entity *snake)
+void snake_movement( Entity *snake ,int up, int down, int left, int right)
 {
 
-    float y_pos = SCREEN_HEIGHT;
-    float x_pos = SCREEN_WIDTH;
-    float y_vel = SPEED;
-    float x_vel = SPEED;
+    if (up && !down)
+        snake->y -=  (int) 1;
+    
+    if (down && !up)
+        snake->y +=  (int) 1;
+    
+    if (left && !right)
+        snake->x -=  (int) 1;
+    
+    if (right && !left)
+        snake->x +=  (int) 1;
+
 
     if (snake->x <= 0)
-    {
+        snake->x =  SCREEN_WIDTH - snake->currentFrame.w;
+
+    if (snake->x > SCREEN_WIDTH - snake->currentFrame.w )
         snake->x = 0;
-        x_vel = -x_vel;
-    }
+
     if (snake->y <= 0)
-    {
+        snake->y =  SCREEN_HEIGHT - snake->currentFrame.h;
+
+    if (snake->y > SCREEN_HEIGHT - snake->currentFrame.h )
         snake->y = 0;
-        y_vel = -y_vel;
-    }
-   if (x_pos >= SCREEN_WIDTH - snake->currentFrame.w )
-    {
-        x_pos = SCREEN_WIDTH - snake->currentFrame.w;
-        x_vel = -x_vel;
-    }
-    if (y_pos >= SCREEN_HEIGHT - snake->currentFrame.h )
-    {
-        y_pos = SCREEN_HEIGHT - snake->currentFrame.h;
-        y_vel = -y_vel;
-    }
-
-    snake->x += x_vel / 60;
-    snake->y  += y_vel / 60;
-    
-    // snake->y =  y_pos;
-    // snake->x =  x_pos;
-
-    
-    // SDL_Delay(1000/60);
+  
+    SDL_Delay(1000 / 90);
 }
