@@ -91,7 +91,8 @@ void game()
     Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./static/tile32_dark.png") );
     Entity *bg = new_entity( vector2f(0,0), load_texture("./static/bg.png") );
     Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );
-    // SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
 
     bool running = true;
     bool collsions = false;
@@ -151,19 +152,19 @@ void game()
         }
 
         SDL_RenderClear(renderer);
-        snake_movement(&rect ,renderer,up,  down, left, right,score);
-
+        snake_movement(snake,up,  down, left, right,score);
     
         if (
-            rect.x + rect.w > apple->x && rect.x < apple->x + apple->currentFrame.w &&
-            rect.y + rect.h > apple->y && rect.y < apple->y + apple->currentFrame.h
+            snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
+            snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
            )
         {   
             score++;
             collsions = true;
             apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );  
         }
-        
+
+        render_texture(snake);
         render_texture( apple );
         SDL_RenderPresent( renderer );
     }

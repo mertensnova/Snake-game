@@ -1,5 +1,6 @@
 {
    "files.associations": {
-      "render.h": "c"
+      "render.h": "c",
+      "stdbool.h": "c"
    }
 }
