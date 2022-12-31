@@ -86,33 +86,6 @@ bool init()
     return success;
 }
 
-void new()
-{
-    Snake_Node *s = malloc(sizeof(Snake_Node));
-
-      // Set render color to red ( background will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
-
-    // Clear winow
-    SDL_RenderClear( renderer );
-
-    // Creat a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
-    s->x = 200;
-    s->y = 200;
-    SDL_Rect r;
-    r.x = 200;
-    r.y= 200;
-    // Set render color to blue ( rect will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-
-    // Render rect
-    SDL_RenderFillRect( renderer, &r );
-
-    // Render the rect to the screen
-    SDL_RenderPresent(renderer);
-
-}
-
 void game()
 {
    
@@ -121,15 +94,8 @@ void game()
     Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
-
     bool running = true;
     bool collsions = false;
-    SDL_Rect rect;
-    rect.x = 250;
-    rect.y = 150;
-    rect.w = 50;
-    rect.h = 20;
-
 
     int score = 0;
     int up = 0;
@@ -179,11 +145,11 @@ void game()
             
         }
 
-        // SDL_Rend`erClear(renderer);
+        // Set render color to red ( background will be rendered in this color )
+        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );   
+
+        draw_snake( renderer , up , down, left, right );
         // snake_movement(snake,up,  down, left, right,score);
-        new();
-
-
     
         // if (
         //     snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
@@ -192,12 +158,12 @@ void game()
         // {   
         //     score++;
         //     collsions = true;
-        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );  
+        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );  
         // }
 
-        // // render_texture(snake);
-        // // render_texture( apple );
-        // SDL_RenderPresent( renderer );
+        // render_texture( renderer, snake );
+        // render_texture( renderer ,apple );
+        SDL_RenderPresent( renderer );
     }
 
     printf("Your Score : %d\n",score);

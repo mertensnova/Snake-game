@@ -20,7 +20,7 @@ Go to the project directory
 Build project
 
 ```bash
-  gcc -o main main.c entity.c render.c snake.c  -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
+  make
 
 ```
 
