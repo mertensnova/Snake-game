@@ -8,6 +8,7 @@
 #include "includes/Render.h"
 #include "includes/Entity.h"
 #include "includes/Snake.h"
+#include "includes/Texture.h"
 
 
 SDL_Window *window = NULL;
@@ -85,12 +86,39 @@ bool init()
     return success;
 }
 
+void new()
+{
+    Snake_Node *s = malloc(sizeof(Snake_Node));
+
+      // Set render color to red ( background will be rendered in this color )
+    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+
+    // Clear winow
+    SDL_RenderClear( renderer );
+
+    // Creat a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
+    s->x = 200;
+    s->y = 200;
+    SDL_Rect r;
+    r.x = 200;
+    r.y= 200;
+    // Set render color to blue ( rect will be rendered in this color )
+    SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
+
+    // Render rect
+    SDL_RenderFillRect( renderer, &r );
+
+    // Render the rect to the screen
+    SDL_RenderPresent(renderer);
+
+}
+
 void game()
 {
    
-    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture("./static/tile32_dark.png") );
-    Entity *bg = new_entity( vector2f(0,0), load_texture("./static/bg.png") );
-    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );
+    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture(renderer,"./static/tile32_dark.png") );
+    Entity *bg = new_entity( vector2f(0,0), load_texture(renderer,"./static/bg.png") );
+    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
 
@@ -151,22 +179,25 @@ void game()
             
         }
 
-        SDL_RenderClear(renderer);
-        snake_movement(snake,up,  down, left, right,score);
-    
-        if (
-            snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
-            snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
-           )
-        {   
-            score++;
-            collsions = true;
-            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );  
-        }
+        // SDL_Rend`erClear(renderer);
+        // snake_movement(snake,up,  down, left, right,score);
+        new();
 
-        render_texture(snake);
-        render_texture( apple );
-        SDL_RenderPresent( renderer );
+
+    
+        // if (
+        //     snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
+        //     snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
+        //    )
+        // {   
+        //     score++;
+        //     collsions = true;
+        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture("./static/ball.png") );  
+        // }
+
+        // // render_texture(snake);
+        // // render_texture( apple );
+        // SDL_RenderPresent( renderer );
     }
 
     printf("Your Score : %d\n",score);
@@ -175,35 +206,4 @@ void game()
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
     SDL_Quit();
-}
-
-
-void render_texture( Entity *new_entity )
-{
-    SDL_Rect src;
-    src.x = new_entity->currentFrame.x; 
-    src.y = new_entity->currentFrame.y;
-    src.w = new_entity->currentFrame.w;
-    src.h = new_entity->currentFrame.h;
-
-    SDL_Rect dst;
-    dst.x = new_entity->x;
-    dst.y = new_entity->y;
-    dst.w =  new_entity->currentFrame.w;
-    dst.h = new_entity->currentFrame.h;
-
-
-    SDL_RenderCopy( renderer, new_entity->tex, &src, &dst );
-}
-
-SDL_Texture* load_texture( const char* path )
-{
-    SDL_Texture* newTexture = NULL;
-
-    newTexture  = IMG_LoadTexture( renderer, path );
-
-    if ( newTexture == NULL )
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
-
-    return newTexture;
 }

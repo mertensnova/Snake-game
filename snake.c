@@ -8,6 +8,9 @@
 #include "includes/Render.h"
 #include "includes/Snake.h"
 
+
+
+
 void snake_movement( Entity *snake ,int up, int down, int left, int right, int score)
 {
 

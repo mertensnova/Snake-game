@@ -1,8 +1,12 @@
 #include <stdio.h>
-#include "SDL2/SDL.h"
 #include <stdbool.h>
+
+#include "SDL2/SDL.h"
+
 #include "includes/Render.h"
 #include "includes/Entity.h"
+#include "includes/Texture.h"
+
 
 int main(int argc,char *argv[])
 {
@@ -14,7 +18,3 @@ int main(int argc,char *argv[])
 
     return 0;
 }
-
-// // gcc -o main main.c -I/usr/local/include/SDL2 -L/usr/local/lib -lSDL2
-
-
