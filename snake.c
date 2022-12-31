@@ -11,23 +11,9 @@
 
 
 
-// void PrintSnake (Deque *snake)
-// {
-// 	Snake_Node* tmp = snake->front;
-// 	while (tmp != NULL)
-// 	{
-// 		GoToPosition(tmp->coords);
-// 		printf("%c", SnakeElement);
-// 		tmp = tmp->next;
-// 	}
-// }
-
-void draw_snake( SDL_Renderer *renderer ,int up, int down, int left, int right )
+void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int left, int right )
 {
 
-    Deque *snake = deque_init();
-
-    Snake_Node* tmp = snake->front;
     SDL_RenderClear( renderer );  
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
@@ -37,19 +23,20 @@ void draw_snake( SDL_Renderer *renderer ,int up, int down, int left, int right )
 	{
 		Vector position = { SCREEN_WIDTH / 2 - i , SCREEN_HEIGHT / 2 };
 		deque_push( snake, &position );
+        Snake_Node* tmp = snake->front;
+
         while (tmp != NULL)
 	    {
-		// GoToPosition(tmp->coords);
-        rect[i].x = tmp->coords->x;
-        rect[i].y = tmp->coords->y;
-		tmp = tmp->next;
-        
+            rect[i].x = i * tmp->coords->x / 15;
+            rect[i].y = tmp->coords->y;
+		    tmp = tmp->next;
 	    }
 
-        rect[i].w  = 20;
         rect[i].h = 20;
-
+        rect[i].w = 20; 
 	}
+
+    snake_movement( snake, up,  down, left, right);
 
     SDL_RenderDrawRects(renderer, rect, 10);
 
@@ -60,35 +47,55 @@ void draw_snake( SDL_Renderer *renderer ,int up, int down, int left, int right )
 }
 
 
-void snake_movement( Entity *snake ,int up, int down, int left, int right, int score)
+void snake_movement( Deque *snake  ,int up, int down, int left, int right)
 {
-
-    int velocity = SPEED / 60;
+    Vector *snake_head = deque_back(snake);
+    Vector *next_direction;
 
     if (up && !down)
-        snake->y -=  velocity;
+    {
+       next_direction->x += 0;
+       next_direction->y += -1;
+    }
+
     
     if (down && !up)
-        snake->y += (int) velocity;
+    {
+       next_direction->x += 0;
+       next_direction->y += 1;
+    }
     
     if (left && !right)
-        snake->x -=  (int) velocity;
+    {
+       next_direction->x += 1;
+       next_direction->y += 0;
+    }
     
     if (right && !left)
-        snake->x +=  (int) velocity;
+    {
+       next_direction->x -= 1;
+       next_direction->y += 0;
+    }
 
-    if (snake->x <= 0)
-        snake->x =  SCREEN_WIDTH - snake->currentFrame.w;
+	// Vector next_direction = directions[0];
+	Vector *snake_new_head = {snake_head->x + next_direction->x, snake_head->y + next_direction->y};
+    deque_push( snake, snake_new_head );
 
-    if (snake->x> SCREEN_WIDTH - snake->currentFrame.w )
-        snake->x = 0;
 
-    if (snake->y <= 0)
-        snake->y =  SCREEN_HEIGHT - snake->currentFrame.h;
+    // int velocity = SPEED / 60;
 
-    if (snake->y > SCREEN_HEIGHT - snake->currentFrame.h )
-        snake->y = 0;
+    // if (snake->x <= 0)
+    //     snake->x =  SCREEN_WIDTH - snake->currentFrame.w;
+
+    // if (snake->x> SCREEN_WIDTH - snake->currentFrame.w )
+    //     snake->x = 0;
+
+    // if (snake->y <= 0)
+    //     snake->y =  SCREEN_HEIGHT - snake->currentFrame.h;
+
+    // if (snake->y > SCREEN_HEIGHT - snake->currentFrame.h )
+    //     snake->y = 0;
   
 
-    SDL_Delay(1000 / 30);
+    // SDL_Delay(1000 / 30);
 }

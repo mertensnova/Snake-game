@@ -16,7 +16,6 @@ typedef struct Snake_Node {
 } Snake_Node;
 
 
-void snake_movement( Entity *snake ,int up, int down, int left, int right, int score);
-void draw_snake( SDL_Renderer *renderer ,int up, int down, int left, int right );
+
 #endif
 

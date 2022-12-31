@@ -9,6 +9,7 @@
 #include "includes/Entity.h"
 #include "includes/Snake.h"
 #include "includes/Texture.h"
+#include "includes/Deque.h"
 
 
 SDL_Window *window = NULL;
@@ -89,13 +90,15 @@ bool init()
 void game()
 {
    
-    Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture(renderer,"./static/tile32_dark.png") );
-    Entity *bg = new_entity( vector2f(0,0), load_texture(renderer,"./static/bg.png") );
-    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
+    // Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture(renderer,"./static/tile32_dark.png") );
+    // Entity *bg = new_entity( vector2f(0,0), load_texture(renderer,"./static/bg.png") );
+    // Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
     bool running = true;
     bool collsions = false;
+
+    Deque *snake = deque_init();
 
     int score = 0;
     int up = 0;
@@ -148,8 +151,7 @@ void game()
         // Set render color to red ( background will be rendered in this color )
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );   
 
-        draw_snake( renderer , up , down, left, right );
-        // snake_movement(snake,up,  down, left, right,score);
+        draw_snake( snake ,renderer , up,  down, left, right );
     
         // if (
         //     snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
@@ -166,7 +168,6 @@ void game()
         SDL_RenderPresent( renderer );
     }
 
-    printf("Your Score : %d\n",score);
     
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );

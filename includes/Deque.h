@@ -19,6 +19,10 @@ typedef struct Deque {
 Deque* deque_init();
 
 void deque_push(Deque *q, Vector *coords);
+Vector *deque_front (Deque *q);
+Vector *deque_back (Deque *q);
+void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int left, int right );
+void snake_movement( Deque *snake  ,int up, int down, int left, int right);
 
 
 
