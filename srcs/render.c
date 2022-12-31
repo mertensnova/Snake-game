@@ -5,11 +5,11 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
 
-#include "includes/Render.h"
-#include "includes/Entity.h"
-#include "includes/Snake.h"
-#include "includes/Texture.h"
-#include "includes/Deque.h"
+#include "Render.h"
+#include "Entity.h"
+#include "Snake.h"
+#include "Texture.h"
+#include "Deque.h"
 
 
 SDL_Window *window = NULL;
@@ -52,12 +52,12 @@ bool init()
         success = false;
         exit(1);
     }
-  
-    window = SDL_CreateWindow( "My World", 
-                                SDL_WINDOWPOS_UNDEFINED, 
-                                SDL_WINDOWPOS_UNDEFINED, 
-                                SCREEN_WIDTH, 
-                                SCREEN_HEIGHT, 
+
+    window = SDL_CreateWindow( "My World",
+                                SDL_WINDOWPOS_UNDEFINED,
+                                SDL_WINDOWPOS_UNDEFINED,
+                                SCREEN_WIDTH,
+                                SCREEN_HEIGHT,
                                 SDL_WINDOW_SHOWN );
 
     if( window == NULL )
@@ -89,7 +89,7 @@ bool init()
 
 void game()
 {
-   
+
     // Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture(renderer,"./static/tile32_dark.png") );
     // Entity *bg = new_entity( vector2f(0,0), load_texture(renderer,"./static/bg.png") );
     // Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
@@ -143,24 +143,24 @@ void game()
                         left= 0;
                         right = 1;
                         break;
-                }  
+                }
             }
-            
+
         }
 
         // Set render color to red ( background will be rendered in this color )
-        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );   
+        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
 
         draw_snake( snake ,renderer , up,  down, left, right );
-    
+
         // if (
         //     snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
         //     snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
         //    )
-        // {   
+        // {
         //     score++;
         //     collsions = true;
-        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );  
+        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
         // }
 
         // render_texture( renderer, snake );
@@ -168,7 +168,7 @@ void game()
         SDL_RenderPresent( renderer );
     }
 
-    
+
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );

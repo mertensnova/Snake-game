@@ -4,8 +4,8 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
 
-#include "includes/Entity.h"
-#include "includes/Render.h"
+#include "Entity.h"
+#include "Render.h"
 
 
 Vector *vector2f(float p_x, float p_y)

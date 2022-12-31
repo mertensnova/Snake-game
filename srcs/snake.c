@@ -4,17 +4,17 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
-#include "includes/Entity.h"
-#include "includes/Render.h"
-#include "includes/Snake.h"
-#include "includes/Deque.h"
+#include "Entity.h"
+#include "Render.h"
+#include "Snake.h"
+#include "Deque.h"
 
 
 
 void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int left, int right )
 {
 
-    SDL_RenderClear( renderer );  
+    SDL_RenderClear( renderer );
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
     SDL_Rect rect[10];
@@ -33,7 +33,7 @@ void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int lef
 	    }
 
         rect[i].h = 20;
-        rect[i].w = 20; 
+        rect[i].w = 20;
 	}
 
     snake_movement( snake, up,  down, left, right);
@@ -41,7 +41,7 @@ void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int lef
     SDL_RenderDrawRects(renderer, rect, 10);
 
     SDL_RenderFillRects(renderer, rect , 10);
-    
+
     SDL_RenderPresent(renderer);
 
 }
@@ -58,19 +58,19 @@ void snake_movement( Deque *snake  ,int up, int down, int left, int right)
        next_direction->y += -1;
     }
 
-    
+
     if (down && !up)
     {
        next_direction->x += 0;
        next_direction->y += 1;
     }
-    
+
     if (left && !right)
     {
        next_direction->x += 1;
        next_direction->y += 0;
     }
-    
+
     if (right && !left)
     {
        next_direction->x -= 1;
@@ -95,7 +95,7 @@ void snake_movement( Deque *snake  ,int up, int down, int left, int right)
 
     // if (snake->y > SCREEN_HEIGHT - snake->currentFrame.h )
     //     snake->y = 0;
-  
+
 
     // SDL_Delay(1000 / 30);
 }
