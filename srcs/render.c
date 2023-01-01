@@ -15,11 +15,8 @@
 SDL_Window *window = NULL;
 
 SDL_Surface* screenSurface = NULL;
-
 SDL_Renderer* renderer = NULL;
-
 SDL_Texture* texture = NULL;
-
 SDL_Event event;
 
 
@@ -132,7 +129,9 @@ void game()
         }
 
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        snake_movement( renderer ,snake, up,  down, left, right );
+        
+        draw_snake( snake, renderer,  up,  down, left, right);
+        // snake_movement( renderer ,snake, up,  down, left, right );
 
         SDL_RenderPresent( renderer );
     }
