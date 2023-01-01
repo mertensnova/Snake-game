@@ -4,9 +4,6 @@
 #include "SDL2/SDL.h"
 
 #include "Render.h"
-#include "Entity.h"
-#include "Texture.h"
-
 
 int main(void)
 {

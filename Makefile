@@ -1,33 +1,3 @@
-# main: main.o entity.o  render.o snake.o texture.o deque.o
-# 	 gcc  main.o entity.o render.o snake.o texture.o deque.o -o main  -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-# main.o: main.c
-# 	    gcc -c  main.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-
-# entity.o: entity.c includes/Entity.h
-# 	    gcc -c entity.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-
-# render.o: render.c includes/Render.h
-# 	    gcc -c render.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-
-# snake.o: snake.c includes/Snake.h
-# 	    gcc -c snake.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-
-# texture.o: texture.c includes/Texture.h
-# 	    gcc -c texture.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-
-# deque.o: deque.c includes/Deque.h
-# 	    gcc -c deque.c -I /usr/local/include/SDL2 -L /usr/local/lib -lSDL2 -lSDL2_image
-
-# clean:
-# 	rm *.o main
-
-#  I left your old code for comparison
 # This makefile will only recompile if something has changed, however the.h files do not count so you should use make re if you have changed your header files
 
 NAME = snake
@@ -47,7 +17,7 @@ SRCS_NAMES =	\
 	main		\
 	render		\
 	snake		\
-	texture		\
+	utils		\
 
 # This line means to add $(SRC_DIR) (which I have set to srcs/) in front of every word in SRCS_NAMES, and add ".c" at the end of the word
 # The synatx is $(addprefix [what you want to add in front], [what you want to add it to])

@@ -36,8 +36,6 @@ void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int lef
         rect[i].w = 20;
 	}
 
-    snake_movement( snake, up,  down, left, right);
-
     SDL_RenderDrawRects(renderer, rect, 10);
 
     SDL_RenderFillRects(renderer, rect , 10);
@@ -47,55 +45,38 @@ void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int lef
 }
 
 
-void snake_movement( Deque *snake  ,int up, int down, int left, int right)
+void snake_movement( SDL_Renderer *renderer ,Deque *snake  ,int up, int down, int left, int right)
 {
     Vector *snake_head = deque_back(snake);
     Vector *next_direction;
 
     if (up && !down)
     {
-       next_direction->x += 0;
-       next_direction->y += -1;
+       snake_head->y += - SPEED / 60;
+       printf("%d\n", snake_head->y);
     }
 
+    
+    // deque_push( snake, snake_head );
+    draw_snake( snake_head , renderer , up,  down, left, right );
+    // draw_snake(snake_head, up,  down, left, right );
 
-    if (down && !up)
-    {
-       next_direction->x += 0;
-       next_direction->y += 1;
-    }
+    // if (down && !up)
+    // {
+    // //    snake_head->x += 0;
+    //    snake_head->y += 1;
+    // }
 
-    if (left && !right)
-    {
-       next_direction->x += 1;
-       next_direction->y += 0;
-    }
+    // if (left && !right)
+    // {
+    //    snake_head->x += 1;
+    // //    snake_head->y += 0;
+    // }
 
-    if (right && !left)
-    {
-       next_direction->x -= 1;
-       next_direction->y += 0;
-    }
+    // if (right && !left)
+    // {
+    //    snake_head->x -= 1;
+    // //    snake_head->y += 0;
+    // }
 
-	// Vector next_direction = directions[0];
-	Vector *snake_new_head = {snake_head->x + next_direction->x, snake_head->y + next_direction->y};
-    deque_push( snake, snake_new_head );
-
-
-    // int velocity = SPEED / 60;
-
-    // if (snake->x <= 0)
-    //     snake->x =  SCREEN_WIDTH - snake->currentFrame.w;
-
-    // if (snake->x> SCREEN_WIDTH - snake->currentFrame.w )
-    //     snake->x = 0;
-
-    // if (snake->y <= 0)
-    //     snake->y =  SCREEN_HEIGHT - snake->currentFrame.h;
-
-    // if (snake->y > SCREEN_HEIGHT - snake->currentFrame.h )
-    //     snake->y = 0;
-
-
-    // SDL_Delay(1000 / 30);
 }

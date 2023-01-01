@@ -8,7 +8,7 @@
 #include "Render.h"
 #include "Entity.h"
 #include "Snake.h"
-#include "Texture.h"
+#include "Utils.h"
 #include "Deque.h"
 
 
@@ -22,23 +22,6 @@ SDL_Texture* texture = NULL;
 
 SDL_Event event;
 
-int random_number(int min_num, int max_num)
-{
-    int result = 0, low_num = 0, hi_num = 0;
-
-    if (min_num < max_num)
-    {
-        low_num = min_num;
-        hi_num = max_num + 1;
-    } else {
-        low_num = max_num + 1;
-        hi_num = min_num;
-    }
-
-    srand(time(NULL));
-    result = (rand() % (hi_num - low_num)) + low_num;
-    return result;
-}
 
 bool init()
 {
@@ -148,23 +131,9 @@ void game()
 
         }
 
-        // Set render color to red ( background will be rendered in this color )
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+        snake_movement( renderer ,snake, up,  down, left, right );
 
-        draw_snake( snake ,renderer , up,  down, left, right );
-
-        // if (
-        //     snake->x + snake->currentFrame.w > apple->x && snake->x < apple->x + apple->currentFrame.w &&
-        //     snake->y + snake->currentFrame.h > apple->y && snake->y < apple->y + apple->currentFrame.h
-        //    )
-        // {
-        //     score++;
-        //     collsions = true;
-        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
-        // }
-
-        // render_texture( renderer, snake );
-        // render_texture( renderer ,apple );
         SDL_RenderPresent( renderer );
     }
 

@@ -1,6 +1,10 @@
+#include <time.h>
+
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
 #include "Entity.h"
+#include "Utils.h"
+
 
 void render_texture( SDL_Renderer *renderer ,Entity *new_entity )
 {
@@ -30,4 +34,22 @@ SDL_Texture* load_texture( SDL_Renderer *renderer ,const char* path )
         printf( "Unable to load image %s! SDL_image Error: %s\n", path, IMG_GetError() );
 
     return newTexture;
+}
+
+int random_number(int min_num, int max_num)
+{
+    int result = 0, low_num = 0, hi_num = 0;
+
+    if (min_num < max_num)
+    {
+        low_num = min_num;
+        hi_num = max_num + 1;
+    } else {
+        low_num = max_num + 1;
+        hi_num = min_num;
+    }
+
+    srand(time(NULL));
+    result = (rand() % (hi_num - low_num)) + low_num;
+    return result;
 }

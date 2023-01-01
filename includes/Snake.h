@@ -5,17 +5,12 @@
 
 #include "Entity.h"
 
-
-// One block of a snake body.
-
 typedef struct Snake_Node {
 
     Vector *coords;
     struct Snake_Node *next;
 
 } Snake_Node;
-
-
 
 #endif
 
