@@ -4,9 +4,9 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
 
-#include "includes/Entity.h"
-#include "includes/Deque.h"
-#include "includes/Snake.h"
+#include "Entity.h"
+#include "Deque.h"
+#include "Snake.h"
 
 
 
@@ -29,7 +29,7 @@ Deque* deque_init()
 void deque_push(Deque *q, Vector *coords)
 {
 	Snake_Node* snake = (Snake_Node*) malloc(sizeof(Snake_Node));
-    
+
 	if (snake == NULL)
 	{
 		system("pause > Problem with allocating memory for Node.Please press any key to exit...");
@@ -56,10 +56,12 @@ Vector *deque_front (Deque *q)
 {
 	if (q->front != NULL)
 		return q->front->coords;
+	return NULL;
 }
 
 Vector *deque_back(Deque *q)
 {
 	if (q->rear != NULL)
 		return q->rear->coords;
+	return NULL;
 }

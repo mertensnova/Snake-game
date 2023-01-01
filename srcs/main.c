@@ -3,12 +3,12 @@
 
 #include "SDL2/SDL.h"
 
-#include "includes/Render.h"
-#include "includes/Entity.h"
-#include "includes/Texture.h"
+#include "Render.h"
+#include "Entity.h"
+#include "Texture.h"
 
 
-int main(int argc,char *argv[])
+int main(void)
 {
 
     if ( !init() )
