@@ -134,6 +134,7 @@ void game()
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         SDL_RenderClear(renderer);
         snake_movement( renderer, snake, up, down ,left ,right );
+        // draw_snake`( snake, renderer );
         SDL_RenderPresent( renderer );
     }
 

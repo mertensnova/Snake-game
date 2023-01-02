@@ -18,68 +18,68 @@ void init_snake( Deque *snake ,SDL_Renderer *renderer )
 	}
 }
 
-
 void draw_snake( Deque *snake ,SDL_Renderer *renderer )
 {
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-    SDL_Rect rect[10];
-
-    for (int i = 0; i < 10; i++)
-	{
-        Snake_Node* tmp = snake->front;
+    SDL_Rect rect;
+    Snake_Node* tmp = snake->front;
         while (tmp != NULL)
 	    {
-            rect[i].x = i * tmp->coords->x / 20;
-            rect[i].y = tmp->coords->y;
+            rect.x =  tmp->coords->x / 20;
+            rect.y = tmp->coords->y;
 		    tmp = tmp->next;
 	    }
 
-        rect[i].h = 20;
-        rect[i].w = 20;
-    }
-
-    int head = rect[0].x;
+        rect.h = 20;
+        rect.w = 20;
 
 
-    SDL_RenderDrawRects(renderer, rect,10);
-    SDL_RenderFillRects(renderer, rect,10);
+
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void snake_movement( SDL_Renderer *renderer , Deque *snake  ,int up, int down, int left, int right)
 {
 
+    static const int moveX[] = { 0, 0, -10, 10 };
+    static const int moveY[] = { -10, 10, 0, 0 };
+
     Vector *snake_head = deque_front(snake);
+    unsigned y;
+    unsigned x;
+
     if (down && !up)
-       snake_head->y+= 1;
+    {
+        y = snake_head[0].y + moveY[0];
+    }
 
     if (!down && up)
-       snake_head->y -= 1;
+    {
+      y = snake_head[0].y + moveY[1];
+    }
 
     if (left && !right)
-       snake_head->x -= 10;
+    {
+       x = snake_head[0].x + moveX[0];
+    }
 
     if (right && !left)
-       snake_head->x += 10;
+    {
+      x = snake_head[0].x + moveX[1];
+    }
+
+    Vector new_head;
+    new_head.y = y;
+    new_head.x += x;
+  
     
-    //  if (snake_head->x <= 0)
-    //     snake_head->x =  SCREEN_WIDTH - snake->length;
-
-    // if (snake_head->x> SCREEN_WIDTH - snake->length )
-    //     snake_head->x = 0;
-
-    // if (snake_head->y <= 0)
-    //     snake_head->y =  SCREEN_HEIGHT - snake->length;
-
-    // if (snake_head->y > SCREEN_HEIGHT - snake->length )
-    //     snake_head->y = 0;
-
-    
-    
-    deque_push(snake, snake_head);
-    // deque_pop(snake);
+    deque_pop(snake);
+   deque_push(snake, &new_head);
+   draw_snake( snake, renderer );
     // SDL_RenderClear(renderer);
-    draw_snake( snake, renderer );
+    
     SDL_Delay(1000/60);
 }
 
