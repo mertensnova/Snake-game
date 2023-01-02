@@ -37,7 +37,7 @@ void deque_push(Deque *q, Vector *coords)
 	if (q->front == NULL && q->rear == NULL)
 	{
 		q->front = q->rear = snake;
-		// q->length++;
+		q->length++;
 		return;
 	}
 

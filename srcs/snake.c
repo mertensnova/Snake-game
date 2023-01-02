@@ -31,11 +31,8 @@ void draw_snake( Deque *snake ,SDL_Renderer *renderer )
 		    tmp = tmp->next;
 	    }
 
-        rect.h = 20;
-        rect.w = 20;
-
-
-
+    rect.h = 20;
+    rect.w = 20;
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 }
@@ -52,34 +49,32 @@ void snake_movement( SDL_Renderer *renderer , Deque *snake  ,int up, int down, i
 
     if (down && !up)
     {
-        y = snake_head[0].y + moveY[0];
+       snake_head->y += 1; 
     }
 
     if (!down && up)
     {
-      y = snake_head[0].y + moveY[1];
+     snake_head->y -= 1;
     }
 
     if (left && !right)
     {
-       x = snake_head[0].x + moveX[0];
+       snake_head->x -=50;
     }
 
     if (right && !left)
     {
-      x = snake_head[0].x + moveX[1];
+      snake_head->x +=50;
     }
 
     Vector new_head;
-    new_head.y = y;
-    new_head.x += x;
+    new_head.x = snake_head->x - 20;
+    new_head.y = snake_head->y - 20;
   
-    
-    deque_pop(snake);
-   deque_push(snake, &new_head);
    draw_snake( snake, renderer );
-    // SDL_RenderClear(renderer);
-    
-    SDL_Delay(1000/60);
+   deque_push( snake, snake_head);
+   draw_snake( snake, renderer );
+   deque_push( snake, &new_head);
+   SDL_Delay(1000/60);
 }
 
