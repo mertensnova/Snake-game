@@ -21,12 +21,11 @@ Deque* deque_init();
 void deque_push(Deque *q, Vector *coords);
 Vector *deque_front (Deque *q);
 Vector *deque_back (Deque *q);
-// void draw_snake( Deque *snake ,SDL_Renderer *renderer, int up, int down, int left, int right );
+Vector *deque_pop(Deque *q);
+
 void snake_movement( SDL_Renderer *renderer , Deque *snake  ,int up, int down, int left, int right);
-
-void draw_snake( Deque *snake ,SDL_Renderer *renderer,int up, int down, int left, int right );
-
-Deque *init_snake( Deque *snake );
+void draw_snake( Deque *snake ,SDL_Renderer *renderer );
+void init_snake( Deque *snake ,SDL_Renderer *renderer );
 
 
 #endif

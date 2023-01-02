@@ -13,7 +13,6 @@
 
 
 SDL_Window *window = NULL;
-
 SDL_Surface* screenSurface = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* texture = NULL;
@@ -79,6 +78,11 @@ void game()
     bool collsions = false;
 
     Deque *snake = deque_init();
+    for (int i = 0; i < 5; i++)
+	{
+        Vector position = { SCREEN_WIDTH / 2 - i , SCREEN_HEIGHT / 2 };
+		deque_push( snake, &position );
+	}
 
     int score = 0;
     int up = 0;
@@ -127,12 +131,9 @@ void game()
             }
 
         }
-
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        
-        draw_snake( snake, renderer,  up,  down, left, right);
-        // snake_movement( renderer ,snake, up,  down, left, right );
-
+        SDL_RenderClear(renderer);
+        snake_movement( renderer, snake, up, down ,left ,right );
         SDL_RenderPresent( renderer );
     }
 
