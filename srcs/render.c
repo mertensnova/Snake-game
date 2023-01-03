@@ -78,18 +78,15 @@ void game()
     bool collsions = false;
 
     Deque *snake = deque_init();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 10; i++)
 	{
         Vector position = { SCREEN_WIDTH / 2 - i , SCREEN_HEIGHT / 2 };
 		deque_push( snake, &position );
 	}
 
     int score = 0;
-    int up = 0;
-    int down = 0;
-    int left = 0;
-    int right = 0;
-
+    char *direction = "up"; 
+    
     while ( running )
     {
         while ( SDL_PollEvent( &event ) )
@@ -104,28 +101,16 @@ void game()
                 switch( event.key.keysym.sym )
                 {
                     case SDLK_UP:
-                        up = 1;
-                        down = 0;
-                        left= 0;
-                        right = 0;
+                        direction = "up";
                         break;
                     case SDLK_DOWN:
-                        up = 0;
-                        down = 1;
-                        left= 0;
-                        right = 0;
+                        direction = "down";
                         break;
                     case SDLK_LEFT:
-                        up = 0;
-                        down = 0;
-                        left= 1;
-                        right = 0;
+                       direction = "left";
                         break;
                     case SDLK_RIGHT:
-                        up = 0;
-                        down = 0;
-                        left= 0;
-                        right = 1;
+                       direction = "right";
                         break;
                 }
             }
@@ -133,8 +118,7 @@ void game()
         }
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         SDL_RenderClear(renderer);
-        snake_movement( renderer, snake, up, down ,left ,right );
-        // draw_snake`( snake, renderer );
+        snake_movement( renderer, snake, direction );
         SDL_RenderPresent( renderer );
     }
 

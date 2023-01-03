@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
@@ -18,62 +19,57 @@ void init_snake( Deque *snake ,SDL_Renderer *renderer )
 	}
 }
 
-void draw_snake( Deque *snake ,SDL_Renderer *renderer )
+void draw_snake( Deque *snake ,SDL_Renderer *renderer ,char *direction)
 {
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-    SDL_Rect rect;
-    Snake_Node* tmp = snake->front;
+    SDL_Rect rect[10];
+
+    for (int i = 0; i < 5; i++)
+    {   
+        
+        Snake_Node* tmp = snake->front;
         while (tmp != NULL)
 	    {
-            rect.x =  tmp->coords->x / 20;
-            rect.y = tmp->coords->y;
+            rect[0].x = tmp->coords->x;
+            rect[0].y = tmp->coords->y;
 		    tmp = tmp->next;
 	    }
+        rect[i].h = 20;
+        rect[i].w = 20;
+        rect[i].x = rect[0].x - 30 * i; 
+        rect[i].y = rect[0].y; 
+    }
 
-    rect.h = 20;
-    rect.w = 20;
-    SDL_RenderDrawRect(renderer, &rect);
-    SDL_RenderFillRect(renderer, &rect);
+
+
+    SDL_RenderDrawRects(renderer, rect,5);
+    SDL_RenderFillRects(renderer, rect,5);
 }
 
-void snake_movement( SDL_Renderer *renderer , Deque *snake  ,int up, int down, int left, int right)
+void snake_movement( SDL_Renderer *renderer , Deque *snake, char *direction)
 {
 
-    static const int moveX[] = { 0, 0, -10, 10 };
-    static const int moveY[] = { -10, 10, 0, 0 };
-
     Vector *snake_head = deque_front(snake);
-    unsigned y;
-    unsigned x;
-
-    if (down && !up)
-    {
-       snake_head->y += 1; 
-    }
-
-    if (!down && up)
-    {
-     snake_head->y -= 1;
-    }
-
-    if (left && !right)
-    {
-       snake_head->x -=50;
-    }
-
-    if (right && !left)
-    {
-      snake_head->x +=50;
-    }
-
     Vector new_head;
-    new_head.x = snake_head->x - 20;
-    new_head.y = snake_head->y - 20;
+
+    if (!strcmp(direction, "down"))
+       snake_head->y += 1; 
+
+    if (!strcmp(direction, "up"))
+        snake_head->y -= 1;
+
+    if (!strcmp(direction, "left"))
+       snake_head->x -= 10;
+
+    if (!strcmp(direction, "right"))
+      snake_head->x += 10;
+
+    new_head.x = snake_head->x;
+    new_head.y = snake_head->y;
   
-   draw_snake( snake, renderer );
-   deque_push( snake, snake_head);
-   draw_snake( snake, renderer );
+
+   draw_snake( snake, renderer ,direction);
    deque_push( snake, &new_head);
    SDL_Delay(1000/60);
 }

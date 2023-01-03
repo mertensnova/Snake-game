@@ -23,8 +23,9 @@ Vector *deque_front (Deque *q);
 Vector *deque_back (Deque *q);
 Vector *deque_pop(Deque *q);
 
-void snake_movement( SDL_Renderer *renderer , Deque *snake  ,int up, int down, int left, int right);
-void draw_snake( Deque *snake ,SDL_Renderer *renderer );
+void snake_movement( SDL_Renderer *renderer , Deque *snake, char *direction);
+// void draw_snake( Deque *snake ,SDL_Renderer *renderer );
+void draw_snake( Deque *snake ,SDL_Renderer *renderer ,char *direction);
 void init_snake( Deque *snake ,SDL_Renderer *renderer );
 
 
