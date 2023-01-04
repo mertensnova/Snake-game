@@ -2,8 +2,9 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "SDL2/SDL_image.h"
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 
 #include "Render.h"
 #include "Entity.h"
@@ -61,7 +62,14 @@ bool init()
         printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
         success = false;
     }
-    
+
+       //Initialize SDL_ttf
+    if( ! TTF_Init() )
+    {
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        success = false;
+    }
+
     return success;
 }
 

@@ -37,6 +37,32 @@ SDL_Texture* load_texture( SDL_Renderer *renderer ,const char* path )
     return newTexture;
 }
 
+// bool load_media()
+// {
+//     //Loading success flag
+//     bool success = true;
+
+//     //Open the font
+//     font = TTF_OpenFont( "../static/font/font.ttf", 28 );
+//     if( font == NULL )
+//     {
+//         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
+//         success = false;
+//     }
+//     else
+//     {
+//         //Render text
+//         SDL_Color textColor = { 0, 0, 0 };
+//         if( !gTextTexture.loadFromRenderedText( "The quick brown fox jumps over the lazy dog", textColor ) )
+//         {
+//             printf( "Failed to render text texture!\n" );
+//             success = false;
+//         }
+//     }
+
+//     return success;
+// }
+
 int random_number(int min_num, int max_num)
 {
     int result = 0, low_num = 0, hi_num = 0;
