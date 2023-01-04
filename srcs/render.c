@@ -8,8 +8,7 @@
 #include "Render.h"
 #include "Entity.h"
 #include "Snake.h"
-#include "Utils.h"
-#include "Deque.h"
+
 
 
 SDL_Window *window = NULL;
@@ -69,20 +68,17 @@ bool init()
 void game()
 {
 
-    // Entity *snake = new_entity( vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), load_texture(renderer,"./static/tile32_dark.png") );
-    // Entity *bg = new_entity( vector2f(0,0), load_texture(renderer,"./static/bg.png") );
-    // Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
+    Entity *apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture(renderer,"./static/ball.png") );
+    
     SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 
     bool running = true;
     bool collsions = false;
 
-    Deque *snake = deque_init();
-    for (int i = 0; i < 10; i++)
-	{
-        Vector position = { SCREEN_WIDTH / 2 - i , SCREEN_HEIGHT / 2 };
-		deque_push( snake, &position );
-	}
+    Snake_Node *snake = malloc(sizeof(Snake_Node));
+    snake->body[0].x = SCREEN_WIDTH / 2;
+    snake->body[0].y = SCREEN_HEIGHT / 2;
+    snake->length = 1;
 
     int score = 0;
     char *direction = "up"; 
@@ -118,7 +114,19 @@ void game()
         }
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         SDL_RenderClear(renderer);
-        snake_movement( renderer, snake, direction );
+        if (
+            snake->body->x + snake->length > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
+            snake->body->y + snake->length > apple->y && snake->body->y < apple->y + apple->currentFrame.h
+           )
+        {
+            snake->length += 2;
+            collsions = true;
+            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
+        }
+
+        render_texture( renderer ,apple );
+        render_snake(renderer,snake);
+        snake_movement(snake,direction);
         SDL_RenderPresent( renderer );
     }
 

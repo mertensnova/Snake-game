@@ -14,6 +14,7 @@ Vector *vector2f(float p_x, float p_y)
 
      vec->y = p_y;
      vec->x = p_x;
+     
      return vec;
 }
 

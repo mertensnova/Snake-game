@@ -12,7 +12,6 @@ BIN_DIR = bin/
 
 # Name of your source files, if you add , remove or modify the name of a file you should update it here
 SRCS_NAMES =	\
-	deque		\
 	entity		\
 	main		\
 	render		\

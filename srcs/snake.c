@@ -8,69 +8,89 @@
 #include "Entity.h"
 #include "Render.h"
 #include "Snake.h"
-#include "Deque.h"
 
-void init_snake( Deque *snake ,SDL_Renderer *renderer )
+
+Vector *get_snake_head(Snake_Node *snake) 
 {
-    for (int i = 0; i < 5; i++)
-	{
-        Vector position = { SCREEN_WIDTH / 2 - i , SCREEN_HEIGHT / 2 };
-		deque_push( snake, &position );
-	}
+  return &snake->body[snake->length - 1];
 }
 
-void draw_snake( Deque *snake ,SDL_Renderer *renderer ,char *direction)
-{
 
+
+void render_snake( SDL_Renderer *renderer , Snake_Node *snake )
+{
     SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
-    SDL_Rect rect[10];
 
-    for (int i = 0; i < 5; i++)
-    {   
-        
-        Snake_Node* tmp = snake->front;
-        while (tmp != NULL)
-	    {
-            rect[0].x = tmp->coords->x;
-            rect[0].y = tmp->coords->y;
-		    tmp = tmp->next;
-	    }
-        rect[i].h = 20;
-        rect[i].w = 20;
-        rect[i].x = rect[0].x - 30 * i; 
-        rect[i].y = rect[0].y; 
+    for (int i = snake->length - 1; i >= 0; --i)
+    {
+
+      SDL_Rect rect;
+      rect.x = snake->body[i].x; 
+      rect.y = snake->body[i].y;
+      rect.h = 20;
+      rect.w = 20;
+
+      SDL_RenderDrawRect(renderer, &rect);
+      SDL_RenderFillRect(renderer, &rect);
     }
-
-
-
-    SDL_RenderDrawRects(renderer, rect,5);
-    SDL_RenderFillRects(renderer, rect,5);
-}
-
-void snake_movement( SDL_Renderer *renderer , Deque *snake, char *direction)
-{
-
-    Vector *snake_head = deque_front(snake);
-    Vector new_head;
-
-    if (!strcmp(direction, "down"))
-       snake_head->y += 1; 
-
-    if (!strcmp(direction, "up"))
-        snake_head->y -= 1;
-
-    if (!strcmp(direction, "left"))
-       snake_head->x -= 10;
-
-    if (!strcmp(direction, "right"))
-      snake_head->x += 10;
-
-    new_head.x = snake_head->x;
-    new_head.y = snake_head->y;
   
 
-   draw_snake( snake, renderer ,direction);
-   deque_push( snake, &new_head);
-   SDL_Delay(1000/60);
+}
+Vector peak_next_pos(Snake_Node *snake, char *direction) 
+{
+    Vector new_pos;
+    Vector *head_pos = get_snake_head(snake);
+
+    if (!strcmp(direction, "down"))
+    {
+        new_pos.x = head_pos->x;    
+        new_pos.y = (head_pos->y + 1) % SCREEN_HEIGHT;
+    }
+
+    if (!strcmp(direction, "up"))
+    {
+        new_pos.x = head_pos->x;    
+        new_pos.y = head_pos->y == 0 ? SCREEN_HEIGHT - 1 : head_pos->y - 1;
+    }
+
+    if (!strcmp(direction, "left"))
+    {
+        new_pos.x = head_pos->x == 0 ? SCREEN_WIDTH - 1 : head_pos->x - 1;
+        new_pos.y = head_pos->y;
+    }
+
+    if (!strcmp(direction, "right"))
+    {
+        new_pos.x = (head_pos->x + 1) % SCREEN_WIDTH;
+        new_pos.y = head_pos->y;
+    }
+
+  return new_pos;
+}
+
+
+void snake_movement(Snake_Node *snake, char *direction)
+{
+
+  Vector new_pos = peak_next_pos(snake, direction);
+
+  if (snake->length >= 2 &&
+      new_pos.x == snake->body[snake->length - 2].x &&
+      new_pos.y == snake->body[snake->length - 2].y)
+    return;
+
+  Vector *head_pos = get_snake_head(snake);
+  Vector old_pos = *head_pos;
+  Vector tmp_pos = old_pos;
+
+  *head_pos = new_pos;
+
+  for (int i = snake->length - 2 ; i >= 0; i--) {
+    tmp_pos = snake->body[i];
+    snake->body[i] = old_pos;
+    old_pos = tmp_pos;
+  }
+
+  SDL_Delay(1000/90);
 }
 
