@@ -13,9 +13,9 @@ typedef struct Snake_Node {
 } Snake_Node;
 
 
-Vector *get_snake_head(Snake_Node *snake);
+Vector *get_snake_head( Snake_Node *snake );
 void render_snake( SDL_Renderer *renderer , Snake_Node *snake );
-Vector peak_next_pos(Snake_Node *snake, char *direction);
-void snake_movement(Snake_Node *snake,char *direction);
+Vector peak_next_pos( Snake_Node *snake, char *direction );
+void snake_movement( SDL_Renderer *renderer, Snake_Node *snake, char *direction );
 #endif
 

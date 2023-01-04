@@ -61,7 +61,7 @@ bool init()
         printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
         success = false;
     }
-
+    
     return success;
 }
 
@@ -112,21 +112,24 @@ void game()
             }
 
         }
+
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        SDL_RenderClear(renderer);
+        SDL_RenderClear( renderer );
+        
+        snake_movement( renderer ,snake, direction );
+
         if (
-            snake->body->x + snake->length > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
-            snake->body->y + snake->length > apple->y && snake->body->y < apple->y + apple->currentFrame.h
-           )
+        snake->body->x + 20 > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
+        snake->body->y + 20 > apple->y && snake->body->y < apple->y + apple->currentFrame.h
+        )
         {
+            Vector new_pos2 = peak_next_pos(snake, direction);
             snake->length += 2;
-            collsions = true;
+            snake->body[snake->length - 1] = new_pos2;
             apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
         }
 
-        render_texture( renderer ,apple );
-        render_snake(renderer,snake);
-        snake_movement(snake,direction);
+        render_texture( renderer, apple );
         SDL_RenderPresent( renderer );
     }
 

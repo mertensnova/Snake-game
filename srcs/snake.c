@@ -69,15 +69,10 @@ Vector peak_next_pos(Snake_Node *snake, char *direction)
 }
 
 
-void snake_movement(Snake_Node *snake, char *direction)
+void snake_movement( SDL_Renderer *renderer, Snake_Node *snake, char *direction )
 {
 
   Vector new_pos = peak_next_pos(snake, direction);
-
-  if (snake->length >= 2 &&
-      new_pos.x == snake->body[snake->length - 2].x &&
-      new_pos.y == snake->body[snake->length - 2].y)
-    return;
 
   Vector *head_pos = get_snake_head(snake);
   Vector old_pos = *head_pos;
@@ -90,6 +85,8 @@ void snake_movement(Snake_Node *snake, char *direction)
     snake->body[i] = old_pos;
     old_pos = tmp_pos;
   }
+
+  render_snake( renderer, snake );
 
   SDL_Delay(1000/90);
 }
