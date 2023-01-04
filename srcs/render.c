@@ -16,6 +16,7 @@ SDL_Window *window = NULL;
 SDL_Surface* screenSurface = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Texture* texture = NULL;
+TTF_Font* font = NULL;
 SDL_Event event;
 
 
@@ -121,23 +122,25 @@ void game()
 
         }
 
-        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        SDL_RenderClear( renderer );
+        load_media(font, renderer);
+
+        // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+        // SDL_RenderClear( renderer );
         
-        snake_movement( renderer ,snake, direction );
+        // snake_movement( renderer ,snake, direction );
 
-        if (
-        snake->body->x + 20 > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
-        snake->body->y + 20 > apple->y && snake->body->y < apple->y + apple->currentFrame.h
-        )
-        {
-            Vector new_pos2 = peak_next_pos(snake, direction);
-            snake->length += 2;
-            snake->body[snake->length - 1] = new_pos2;
-            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
-        }
+        // if (
+        // snake->body->x + 20 > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
+        // snake->body->y + 20 > apple->y && snake->body->y < apple->y + apple->currentFrame.h
+        // )
+        // {
+        //     Vector new_pos2 = peak_next_pos(snake, direction);
+        //     snake->length += 2;
+        //     snake->body[snake->length - 1] = new_pos2;
+        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
+        // }
 
-        render_texture( renderer, apple );
+        // render_texture( renderer, apple );
         SDL_RenderPresent( renderer );
     }
 
@@ -145,5 +148,13 @@ void game()
     SDL_DestroyTexture( texture );
     SDL_DestroyRenderer( renderer );
     SDL_DestroyWindow( window );
+    TTF_CloseFont( font );
+
+    window = NULL;
+    renderer = NULL;
+    font = NULL;
+
+    TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
 }

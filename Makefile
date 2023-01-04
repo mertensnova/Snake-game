@@ -5,7 +5,7 @@ NAME = snake
 FLAGS =
 INCLUDES = -I includes/ -I /usr/local/include/SDL2
 
-STATIC_LIB = -l SDL2 -l SDL2_image -l SDL2_tff -L /usr/local/lib
+STATIC_LIB = -l SDL2 -l SDL2_image -l SDL2_ttf -L /usr/local/lib
 
 SRCS_DIR = srcs/
 BIN_DIR = bin/
