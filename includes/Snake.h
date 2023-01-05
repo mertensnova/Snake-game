@@ -7,7 +7,7 @@
 
 typedef struct Snake_Node {
 
-    Vector body[192];
+    Vector body[64];
     int length;
 
 } Snake_Node;

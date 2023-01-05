@@ -6,6 +6,7 @@
 
 #include "Entity.h"
 #include "Utils.h"
+#include "Render.h"
 
 
 void render_texture( SDL_Renderer *renderer ,Entity *new_entity )
@@ -38,67 +39,45 @@ SDL_Texture* load_texture( SDL_Renderer *renderer ,const char* path )
     return newTexture;
 }
 
-// bool load_rendered_text( char *textureText, SDL_Color textColor,TTF_Font* font, SDL_Renderer *renderer )
-// {
-//     //Get rid of preexisting texture
-//     free();
-
-//     //Render text surface
-//     SDL_Surface* textSurface = TTF_RenderText_Solid( font, textureText.c_str(), textColor );
-//     if( textSurface == NULL )
-//     {
-//         printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
-//     }
-//     else
-//     {
-//         //Create texture from surface pixels
-//         mTexture = SDL_CreateTextureFromSurface( renderer, textSurface );
-//         if( mTexture == NULL )
-//         {
-//             printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
-//         }
-//         else
-//         {
-//             //Get image dimensions
-//             mWidth = textSurface->w;
-//             mHeight = textSurface->h;
-//         }
-
-//         //Get rid of old surface
-//         SDL_FreeSurface( textSurface );
-//     }
-    
-//     //Return success
-//     return mTexture != NULL;
-// }
-
-bool load_media( TTF_Font* font ,SDL_Renderer * renderer )
+bool load_text( TTF_Font* font ,SDL_Renderer * renderer , int score )
 {
     //Loading success flag
     bool success = true;
+    char str[128];
+    sprintf(str, "%d", score);
 
     //Open the font
-    font = TTF_OpenFont( "../static/font/font.ttf", 28 );
+    font = TTF_OpenFont( "./static/font.ttf", 128 );
+
     if( font == NULL )
     {
         printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
         success = false;
     }
 
-        //Render text
+    //Render text
     SDL_Color text_color = { 255, 255, 255 };
-    SDL_Surface *surface_text = TTF_RenderText_Solid(font ,"Hello World",text_color);
-    SDL_Texture *texture_text = SDL_CreateTextureFromSurface(renderer,surface_text);
-    SDL_FreeSurface(surface_text);
+    SDL_Surface *surface_text = TTF_RenderText_Solid( font , "SCORE: ", text_color );
+    SDL_Surface *score_text = TTF_RenderText_Solid( font , str, text_color );
+    SDL_Texture *score_texture_text = SDL_CreateTextureFromSurface( renderer ,score_text );
+    SDL_Texture *surface_texture_text = SDL_CreateTextureFromSurface( renderer ,surface_text );
+    SDL_FreeSurface( score_text );
+    SDL_FreeSurface( surface_text );
 
-    SDL_Rect rect;
-    rect.x = 200;
-    rect.y = 200;
-    rect.h = 200;
-    rect.w = 200;
+    SDL_Rect score_rect;
+    score_rect.x = 100;
+    score_rect.y  = 20;
+    score_rect.h = 20;
+    score_rect.w = 10;
 
-    SDL_RenderCopy(renderer,texture_text,NULL,&rect);
+    SDL_Rect surface_rect;
+    surface_rect.x = 20;
+    surface_rect.y  = 20;
+    surface_rect.h = 20;
+    surface_rect.w = 80;
 
+    SDL_RenderCopy( renderer, score_texture_text ,NULL ,&score_rect );
+    SDL_RenderCopy( renderer, surface_texture_text ,NULL ,&surface_rect );
 
     return success;
 }

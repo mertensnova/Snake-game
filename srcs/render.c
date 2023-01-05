@@ -33,7 +33,7 @@ bool init()
         exit(1);
     }
 
-    window = SDL_CreateWindow( "My World",
+    window = SDL_CreateWindow( "Snake Game",
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED,
                                 SCREEN_WIDTH,
@@ -64,12 +64,13 @@ bool init()
         success = false;
     }
 
-       //Initialize SDL_ttf
-    if( ! TTF_Init() )
+    //Initialize SDL_ttf
+    if( TTF_Init() == -1 )
     {
         printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
         success = false;
     }
+
 
     return success;
 }
@@ -122,25 +123,26 @@ void game()
 
         }
 
-        load_media(font, renderer);
 
-        // SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-        // SDL_RenderClear( renderer );
+        SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+        SDL_RenderClear( renderer );
+        load_text( font, renderer ,score );
         
-        // snake_movement( renderer ,snake, direction );
+        snake_movement( renderer ,snake, direction );
 
-        // if (
-        // snake->body->x + 20 > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
-        // snake->body->y + 20 > apple->y && snake->body->y < apple->y + apple->currentFrame.h
-        // )
-        // {
-        //     Vector new_pos2 = peak_next_pos(snake, direction);
-        //     snake->length += 2;
-        //     snake->body[snake->length - 1] = new_pos2;
-        //     apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
-        // }
+        if (
+        snake->body->x + 20 > apple->x && snake->body->x < apple->x + apple->currentFrame.w &&
+        snake->body->y + 20 > apple->y && snake->body->y < apple->y + apple->currentFrame.h
+        )
+        {
+            Vector new_pos2 = peak_next_pos(snake, direction);
+            score++;
+            snake->length += 2;
+            snake->body[snake->length - 1] = new_pos2;
+            apple = new_entity( vector2f(random_number(0, SCREEN_WIDTH - 32), random_number(0, SCREEN_HEIGHT - 32)), load_texture( renderer, "./static/ball.png" ) );
+        }
 
-        // render_texture( renderer, apple );
+        render_texture( renderer, apple );
         SDL_RenderPresent( renderer );
     }
 

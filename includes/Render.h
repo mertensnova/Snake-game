@@ -5,7 +5,7 @@
 #include "Entity.h"
 
 //Screen dimension constants
-#define SCREEN_WIDTH (800)
+#define SCREEN_WIDTH (600)
 #define SCREEN_HEIGHT (480)
 #define SPEED  (300)
 #define MAX_SNAKE_LENGTH ((SCREEN_WIDTH) * (SCREEN_HEIGHT))
