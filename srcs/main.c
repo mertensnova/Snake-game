@@ -9,7 +9,10 @@ int main(void)
 {
 
     if ( !init() )
+    {
         printf( "Failed to initialize! \n");
+        return 1;
+    }
     else
         game();
 
